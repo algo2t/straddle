@@ -35,7 +35,7 @@ if st.sidebar.button("Submit"):
         straddle=ce_ltp['close']+pe_ltp['close']
         
         #chart._arrow_line_chart(straddle)
-        fig = px.line(straddle, x=straddle.index, y="close", title='Straddle '+str(strike))
+        fig = px.line(straddle, x=straddle.index, y="close", title='Straddle- '+str(strike)+str("-Expiry-")+str(d)+str("/")+str(m))
         #fig.show()
         chart1.plotly_chart(fig)
         time.sleep(1.5)
