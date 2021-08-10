@@ -4,20 +4,23 @@ import datetime as datetime
 import pandas as pd
 import requests
 from alphatrade import AlphaTrade
+from datetime import datetime as dt
 
 sas = AlphaTrade(login_id=config.login_id, password=config.password, twofa=config.twofa, access_token=config.access_token, master_contracts_to_download=['NFO'])
 
 
-def get_symbol_ce(symbol,d,m,y,strike):
-    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=datetime.date(y, m, d), is_fut=False, strike=strike, is_call = True)
+def get_symbol_ce(symbol,date,strike):
+    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=date, is_fut=False, strike=strike, is_call = True)
     return str(x.symbol)
-def get_symbol_pe(symbol,d,m,y,strike):
-    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=datetime.date(y, m, d), is_fut=False, strike=strike, is_call = False)
+def get_symbol_pe(symbol,date,strike):
+    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=date, is_fut=False, strike=strike, is_call = False)
     return str(x.symbol)
 
 
-def intraday(script,interval):
-    return sas.get_intraday_candles('NFO', script, interval=interval)
+def intraday(script,interval,startdate):
+    x1=sas.get_historical_candles('NFO', script,startdate,dt.now(), interval=interval)
+    x2=sas.get_intraday_candles('NFO', script, interval=interval)
+    return pd.concat([x1,x2])
 
 def vwap(ce,pe):
     q=ce['volume']+pe['volume']
@@ -25,11 +28,11 @@ def vwap(ce,pe):
     return ((p * q).cumsum() / q.cumsum())
 
 
-def get_token_ce(symbol,d,m,y,strike):
-    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=datetime.date(y, m, d), is_fut=False, strike=strike, is_call = True)
+def get_token_ce(symbol,date,strike):
+    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=date, is_fut=False, strike=strike, is_call = True)
     return str(x.token)
-def get_token_pe(symbol,d,m,y,strike):
-    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=datetime.date(y, m, d), is_fut=False, strike=strike, is_call = False)
+def get_token_pe(symbol,date,strike):
+    x=sas.get_instrument_for_fno(symbol = symbol, expiry_date=date, is_fut=False, strike=strike, is_call = False)
     return str(x.token)
 #data['close'].to_csv('int.csv', index=True,header=False)
 #print(data['close'])
