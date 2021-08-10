@@ -18,7 +18,10 @@ def get_symbol_pe(symbol,d,m,y,strike):
 def intraday(script,interval):
     return sas.get_intraday_candles('NFO', script, interval=interval)
 
-
+def vwap(ce,pe):
+    q=ce['volume']+pe['volume']
+    p=ce['close']+pe['close']
+    return ((p * q).cumsum() / q.cumsum())
 
 
 

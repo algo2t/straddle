@@ -37,12 +37,15 @@ if st.sidebar.button("Submit"):
         
         #chart._arrow_line_chart(straddle)
         fig = px.line(straddle, x=straddle.index, y="close", title=str(symbol)+'-Straddle-'+str(strike)+str("-Expiry-")+str(d)+str("/")+str(m))
+        fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
+        
         fig1 = go.Figure(data=go.Candlestick(x=straddle.index,
                 open=ce_ltp['open']+pe_ltp['open'],
                 high=ce_ltp['high']+pe_ltp['high'],
                 low=ce_ltp['low']+pe_ltp['low'],
                 close=ce_ltp['close']+pe_ltp['close']))
         #fig.show()
+        fig1.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name='vwap')
         chart.plotly_chart(fig)
         chart1.plotly_chart(fig1)
         time.sleep(30)
