@@ -3,7 +3,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import time
-import altair
+import plotly.graph_objects as go
+
 
 time_intervals=[1,3,5,10,15]
 date=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,29,30,31]
@@ -36,6 +37,12 @@ if st.sidebar.button("Submit"):
         
         #chart._arrow_line_chart(straddle)
         fig = px.line(straddle, x=straddle.index, y="close", title='Straddle- '+str(strike)+str("-Expiry-")+str(d)+str("/")+str(m))
+        fig1 = go.Figure(data=go.Candlestick(x=straddle.index,
+                open=ce_ltp['open']+pe_ltp['open'],
+                high=ce_ltp['high']+pe_ltp['high'],
+                low=ce_ltp['low']+pe_ltp['low'],
+                close=ce_ltp['close']+pe_ltp['close']))
         #fig.show()
-        chart1.plotly_chart(fig)
-        time.sleep(1.5)
+        chart.plotly_chart(fig)
+        chart1.plotly_chart(fig1)
+        time.sleep(30)
