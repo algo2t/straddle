@@ -6,14 +6,14 @@ import time
 import plotly.graph_objects as go
 
 
-time_intervals=[1,3,5,10,15]
+time_intervals=[1,2,3,4,5,7,10]
 date=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,29,30,31]
 month=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 chart=st.empty()
 chart1=st.empty()
-symbols=['NIFTY','BANKNIFTY']
-interval=st.sidebar.selectbox("Time interval",time_intervals)
+symbols=['BANKNIFTY','FINNIFTY','NIFTY','ACC','ASHOKLEY','ALKEM','APLLTD','APOLLOHOSP','AUROPHARMA','BERGEPAINT','AARTIIND','BHEL','ABFRL','ADANIENT','AMBUJACEM','ADANIPORTS','AUBANK','AXISBANK','BAJAJ-AUTO','BAJAJFINSV','BAJFINANCE','ASIANPAINT','BANDHANBNK','BANKBARODA','BEL','CADILAHC','CANBK','CIPLA','COALINDIA','COFORGE','COLPAL','CUMMINSIND','DABUR','DEEPAKNTR','DRREDDY','EICHERMOT','ESCORTS','EXIDEIND','FEDERALBNK','GLENMARK','GMRINFRA','GODREJCP','GRASIM','BHARTIARTL','HDFC','HDFCAMC','HDFCBANK','HDFCLIFE','HINDALCO','COROMANDEL','ICICIBANK','ICICIGI','ICICIPRULI','IDEA','IDFCFIRSTB','IGL','INDIGO','INDUSINDBK','INDUSTOWER','IRCTC','ITC','JINDALSTEL','JSWSTEEL','KOTAKBANK','L&TFH','LICHSGFIN','LTTS','M&M','M&MFIN','MANAPPURAM','MARICO','HCLTECH','HINDPETRO','MCDOWELL-N','MGL','IBULHSGFIN','MINDTREE','MPHASIS','MRF','MUTHOOTFIN','NATIONALUM','NESTLEIND','NMDC','NTPC','PAGEIND','PFC','PIDILITIND','PIIND','POWERGRID','INDHOTEL','PVR','RBLBANK','RECLTD','INFY','JUBLFOOD','RELIANCE','SBIN','SHREECEM','SRTRANSFIN','SUNPHARMA','SUNTV','TATACHEM','TATAPOWER','TCS','TITAN','TVSMOTOR','UBL','MARUTI','ULTRACEMCO','UPL','VEDL','METROPOLIS','MFSL','BALKRISIND','GRANULES','NAVINFLUOR','APOLLOTYRE','PFIZER','BIOCON','SAIL','BOSCHLTD','BRITANNIA','CHOLAFIN','CONCOR','CUB','SBILIFE','DIVISLAB','DLF','GAIL','SRF','GUJGASLTD','HAVELLS','HINDUNILVR','IOC','LALPATHLAB','LT','LUPIN','MOTHERSUMI','NAM-INDIA','NAUKRI','RAMCOCEM','SIEMENS','TATACONSUM','TATASTEEL','TORNTPHARM','TORNTPOWER','TRENT','LTI','BHARATFORG','ONGC','TECHM','VOLTAS','WIPRO','ZEEL','GODREJPROP','BATAINDIA','HEROMOTOCO','PEL','PNB','TATAMOTORS','AMARAJABAT','BPCL','PETRONET','ASTRAL','STAR']
+interval=st.sidebar.selectbox("Time interval(minutes)",time_intervals)
 symbol=st.sidebar.selectbox("Symbol",symbols)
 strike=st.sidebar.text_input("Strike")
 d=st.sidebar.selectbox("Expiry Date",date)
@@ -36,7 +36,7 @@ if st.sidebar.button("Submit"):
         straddle=ce_ltp['close']+pe_ltp['close']
         
         #chart._arrow_line_chart(straddle)
-        fig = px.line(straddle, x=straddle.index, y="close", title='Straddle- '+str(strike)+str("-Expiry-")+str(d)+str("/")+str(m))
+        fig = px.line(straddle, x=straddle.index, y="close", title=str(symbol)+'-Straddle-'+str(strike)+str("-Expiry-")+str(d)+str("/")+str(m))
         fig1 = go.Figure(data=go.Candlestick(x=straddle.index,
                 open=ce_ltp['open']+pe_ltp['open'],
                 high=ce_ltp['high']+pe_ltp['high'],
