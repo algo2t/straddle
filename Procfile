@@ -1,2 +1,1 @@
-echo PORT $PORT
-streamlit run  --server.port $PORT straddle.py
+web: sh setup.sh && streamlit run straddle.py
