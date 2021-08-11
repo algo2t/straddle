@@ -38,3 +38,6 @@ def get_token_pe(symbol,date,strike):
 #print(data['close'])
 #data=pd.read_csv('int.csv', usecols=['close']).T.values.tolist()[0]
 #print(data)
+
+def calculate_ma(data,period):
+    return data.rolling(period).mean()
