@@ -1,9 +1,9 @@
-from alphatrade import *
+from alpha import *
 import config
 import datetime as datetime
 import pandas as pd
 import requests
-from alphatrade import AlphaTrade
+from alpha import AlphaTrade
 from datetime import datetime as dt
 
 sas = AlphaTrade(login_id=config.login_id, password=config.password, twofa=config.twofa, access_token=config.access_token, master_contracts_to_download=['NFO'])
@@ -19,7 +19,7 @@ def get_symbol_pe(symbol,date,strike):
 
 def intraday(script,interval,startdate):
     x1=sas.get_historical_candles('NFO', script,startdate,dt.now(), interval=interval)
-    x2=sas.get_intraday_candles('NFO', script, interval=interval)
+    x2=sas.get_intraday_candles('NFO', script,startdate, interval=interval)
     return pd.concat([x1,x2])
 
 def vwap(ce,pe):
