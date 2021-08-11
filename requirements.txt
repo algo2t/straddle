@@ -1,5 +1,8 @@
-requests==2.25.1
-plotly==5.1.0
-streamlit==0.86.0
 alphatrade==0.1.2
+plotly==5.1.0
+protlib==1.4
 pandas==1.2.4
+streamlit==0.86.0
+requests==2.25.1
+pytz==2021.1
+websocket_client==1.2.0
