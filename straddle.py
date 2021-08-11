@@ -38,7 +38,7 @@ if st.sidebar.button("Submit"):
     #st.write(pe_ltp['close'])
 
         straddle=ce_ltp['close']+pe_ltp['close']
-        
+        st.write(straddle)
         #chart._arrow_line_chart(straddle)
         fig = px.line(straddle, x=straddle.index, y="close", title=str(symbol)+'-Straddle-'+str(strike)+str("-Expiry-(")+str(d)+str("/")+str(m)+str(")  Current premium=")+str(straddle_ltp))
         fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
