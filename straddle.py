@@ -45,15 +45,37 @@ if st.sidebar.button("Submit"):
         
         #chart._arrow_line_chart(straddle)
         fig = px.line(straddle, x=straddle.index, y="close", title=str(symbol)+'-'+str(ce_strike)+"CE-"+str(pe_strike)+"PE-"+str("-Expiry-(")+str(expiry)+str(")  Current premium=")+str(straddle_ltp))
-        fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
         
+        fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
+        fig.add_scatter(x=straddle.index, y=straddle, mode='lines',name="Straddle")
+        fig.update_xaxes(
+        rangeslider_visible=True,
+        rangebreaks=[
+            # NOTE: Below values are bound (not single values), ie. hide x to y
+            dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+            dict(bounds=[15.5, 9.1], pattern="hour"),  # hide hours outside of 9.30am-4pm
+            # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
+        ]
+    )
+       
         fig1 = go.Figure(data=go.Candlestick(x=straddle.index,
                 open=ce_ltp['open']+pe_ltp['open'],
                 high=ce_ltp['high']+pe_ltp['high'],
                 low=ce_ltp['low']+pe_ltp['low'],
                 close=ce_ltp['close']+pe_ltp['close']))
+
         #fig.show()
         fig1.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name='vwap')
+
+        fig1.update_xaxes(
+        rangeslider_visible=True,
+        rangebreaks=[
+            # NOTE: Below values are bound (not single values), ie. hide x to y
+            dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+            dict(bounds=[15.5, 9.1], pattern="hour"),  # hide hours outside of 9.30am-4pm
+            # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
+        ]
+    )
         chart.plotly_chart(fig)
         chart1.plotly_chart(fig1)
         time.sleep(2)
