@@ -2,6 +2,7 @@ import datetime
 import sas
 import ltp
 import streamlit as st
+from plotly.subplots import make_subplots
 import pandas as pd
 import plotly.express as px
 import time
@@ -10,7 +11,7 @@ from datetime import datetime as dt
 
 time_intervals=[1,2,3,4,5,7,10,15,30,60]
 date=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,29,30,31]
-
+st.write("Press stop to analyse click on traces on graph side to hide ")
 month=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 startdate=st.sidebar.date_input("Start Date",dt.now())
@@ -47,11 +48,20 @@ if st.sidebar.button("Submit"):
         straddle=ce_ltp['close']+pe_ltp['close']
         ma_plot=sas.calculate_ma(straddle,ma)
         #chart._arrow_line_chart(straddle)
-        fig = px.line(straddle, x=straddle.index, y="close", title=str(symbol)+'-'+str(ce_strike)+"CE-"+str(pe_strike)+"PE-"+str("-Expiry-(")+str(expiry)+str(")  Current premium=")+str(straddle_ltp))
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        fig.update_layout(
+    title_text="Straddle"+str(ce_strike)+"CE   "+str(pe_strike)+"PE   Total Premium"+str(straddle_ltp)
+)
         
-        fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
         fig.add_scatter(x=straddle.index, y=straddle, mode='lines',name="Straddle")
-        fig.add_scatter(x=straddle.index, y=ma_plot, mode='lines',name="MA")
+        fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
+        fig.add_trace(
+                    go.Scatter(x=straddle.index, y=ce_ltp['close'], name="ce "+str(ce_strike)),
+                            secondary_y=True,)
+        fig.add_trace(
+                    go.Scatter(x=straddle.index, y=pe_ltp['close'], name="pe "+str(pe_strike)),
+                            secondary_y=True,)                    
+        fig.add_scatter(x=straddle.index, y=ma_plot, mode='lines',name="MA"+str(ma))
         fig.update_xaxes(
         rangeslider_visible=True,
         rangebreaks=[
@@ -82,4 +92,7 @@ if st.sidebar.button("Submit"):
     )
         chart.plotly_chart(fig)
         chart1.plotly_chart(fig1)
+        
         time.sleep(2)
+
+
