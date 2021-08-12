@@ -55,12 +55,7 @@ if st.sidebar.button("Submit"):
         
         fig.add_scatter(x=straddle.index, y=straddle, mode='lines',name="Straddle")
         fig.add_scatter(x=straddle.index, y=sas.vwap(ce_ltp,pe_ltp), mode='lines',name="vwap")
-        fig.add_trace(
-                    go.Scatter(x=straddle.index, y=ce_ltp['close'], name="ce "+str(ce_strike)),
-                            secondary_y=True,)
-        fig.add_trace(
-                    go.Scatter(x=straddle.index, y=pe_ltp['close'], name="pe "+str(pe_strike)),
-                            secondary_y=True,)                    
+                            
         fig.add_scatter(x=straddle.index, y=ma_plot, mode='lines',name="MA"+str(ma))
         fig.update_xaxes(
         rangeslider_visible=True,
