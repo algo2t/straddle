@@ -50,7 +50,7 @@ if st.sidebar.button("Submit"):
         #chart._arrow_line_chart(straddle)
         fig = make_subplots(specs=[[{"secondary_y": True}]])
         fig.update_layout(
-    title_text="Straddle"+str(ce_strike)+"CE   "+str(pe_strike)+"PE   Total Premium"+str(straddle_ltp)
+    title_text=" "+str(ce_strike)+"CE   "+str(pe_strike)+"PE   Total Premium="+str(straddle_ltp)
 )
         
         fig.add_scatter(x=straddle.index, y=straddle, mode='lines',name="Straddle")
