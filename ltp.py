@@ -14,4 +14,4 @@ def get_ltp(token):
     "UserType":"C"}
     r = requests.post(url = API_ENDPOINT, data = data)
     json_data=json.loads(r.text)
-    return (json_data[0]['fLastTradedPrice'])
+    return int(json_data[0]['fLastTradedPrice'])
